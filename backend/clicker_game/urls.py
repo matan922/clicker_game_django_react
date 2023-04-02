@@ -18,5 +18,6 @@ from clicker_game import views
 
 
 urlpatterns = [
-    path('',views.click)
+    path('', views.click),
+    path('account_details/', views.get_account_data)
 ]
