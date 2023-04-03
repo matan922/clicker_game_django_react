@@ -19,4 +19,5 @@ from authentication import views
 
 urlpatterns = [
     path('api/token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('register/', views.registration_form, name='auth_register'),
 ]
