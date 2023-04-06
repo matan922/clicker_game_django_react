@@ -15,9 +15,15 @@ Including another URLconf
 """
 from django.urls import path
 from authentication import views
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
+)
+
 
 
 urlpatterns = [
-    path('api/token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('login/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', views.registration_form, name='auth_register'),
+    path('logout/', views.logout, name='auth_logout'),
 ]

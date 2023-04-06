@@ -1,8 +1,10 @@
+from rest_framework.serializers import ValidationError
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
 
 # Login Serializer
@@ -31,11 +33,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         check if passwords match.
         """
         if pwd['password'] != pwd['password2']:
-            raise serializers.ValidationError("Passwords must match!")
+            raise ValidationError("Passwords must match!")
         return pwd
         
     def create(self, validated_data):
-        print("hey")
         user = User(
             email=validated_data['email'],
             username=validated_data['username'],
@@ -46,3 +47,21 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+            
+# Logout Serializer  
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+    
+    
+    def validate(self,attrs):
+        # Saving the user's refresh token
+        self.token = attrs['refresh']
+        return attrs
+    
+    
+    def save(self,**kwargs):
+        try:
+            # Blacklisting the refresh token
+            RefreshToken(self.token).blacklist()
+        except TokenError:
+            raise ValidationError('Expired or invalid refresh token ')
