@@ -54,7 +54,7 @@ class LogoutSerializer(serializers.Serializer):
     
     
     def validate(self,attrs):
-        # Saving the user's refresh token
+        # Saving the user's refresh token in a variable
         self.token = attrs['refresh']
         return attrs
     
@@ -64,4 +64,4 @@ class LogoutSerializer(serializers.Serializer):
             # Blacklisting the refresh token
             RefreshToken(self.token).blacklist()
         except TokenError:
-            raise ValidationError('Expired or invalid refresh token ')
+            raise ValidationError('Expired or invalid refresh token')

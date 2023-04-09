@@ -29,6 +29,7 @@ def registration_form(request):
 @api_view(['POST'])
 def logout(request):
     serializer = LogoutSerializer(data = request.data)
+    print(serializer)
     if serializer.is_valid():
         serializer.save()  
         return Response(serializer.data, status=status.HTTP_200_OK)
