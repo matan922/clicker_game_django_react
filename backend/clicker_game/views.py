@@ -2,8 +2,6 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-
-
 from clicker_game.models import ClickerDetails
 from clicker_game.serializers import ClickerDetailsSerializer
 
@@ -11,6 +9,7 @@ from clicker_game.serializers import ClickerDetailsSerializer
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def click(request):
     serializer = ClickerDetailsSerializer(data = request.data, context={"user": request.user})
     if serializer.is_valid():
