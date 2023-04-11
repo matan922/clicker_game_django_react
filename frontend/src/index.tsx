@@ -5,10 +5,8 @@ import { store } from "./app/store";
 import App from "./routes/App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./components/ErrorPage";
-import TestUI from "./components/TestUI";
-import TestTwo from "./components/TestTwo";
-
-
+import ModalAchi from "./components/ModalAchi";
+import ModalStats from "./components/ModalStats";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -17,15 +15,15 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       {
-        path: "test",
-        element: <TestUI />,
+        path: "achievements",
+        element: <ModalAchi />,
       },
       {
-        path: "test2",
-        element: <TestTwo />,
+        path: "statistics",
+        element: <ModalStats />,
       },
     ],
   },

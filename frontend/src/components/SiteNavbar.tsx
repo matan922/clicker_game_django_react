@@ -6,6 +6,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link } from "react-router-dom";
+import ModalAchi from "./ModalAchi";
+import ModalStats from "./ModalStats";
 
 const SiteNavbar = () => {
   return (
@@ -19,8 +21,8 @@ const SiteNavbar = () => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link as={Link} to={"test"}>Achievements</Nav.Link>
-            <Nav.Link as={Link} to={"test2"}>Statistics</Nav.Link>
+            <Nav.Link as={Link} to={"achievements"}><ModalAchi/></Nav.Link>
+            <Nav.Link as={Link} to={"statistics"}><ModalStats/></Nav.Link>
             <NavDropdown title="Save/Reset" id="navbarScrollingDropdown">
               <NavDropdown.Item href="#action3">Save</NavDropdown.Item>
               <NavDropdown.Item href="#action4">
