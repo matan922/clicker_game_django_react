@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -31,9 +30,13 @@ const SiteNavbar = () => {
             </NavDropdown>
           </Nav>
           <Nav className="d-flex">
+            <Link to={"/login"}>
               <Button variant="outline-success">Login</Button>
-              <div className="me-2"></div>
+            </Link>
+            <div className="me-2"></div>
+            <Link to={"/register"}>
               <Button variant="outline-success">Register</Button>
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Stack } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
@@ -17,15 +18,16 @@ const ModalStats = () => {
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Statistics</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Stats</Modal.Body>
+        <Modal.Body>
+            <p>Clicks: </p>
+            <p>Workers: </p>
+            <p>Coins: </p>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

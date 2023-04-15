@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
+import { Container } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 
 const ClickerGame = () => {
   return (
     <div>
-        Game Page
+      <Container fluid>
+        <Button>Click</Button>
+      </Container>
     </div>
-  )
-}
+  );
+};
 
-export default ClickerGame
+export default ClickerGame;

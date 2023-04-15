@@ -3,16 +3,13 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import App from "./routes/App";
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./components/ErrorPage";
 import ModalAchi from "./components/ModalAchi";
 import ModalStats from "./components/ModalStats";
 import Game from "./routes/Game";
+import ModalLogin from "./components/ModalLogin";
+import ModalRegister from "./components/ModalRegister";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -34,6 +31,14 @@ const router = createBrowserRouter([
           {
             path: "/statistics",
             element: <ModalStats />,
+          },
+          {
+            path: "/login",
+            element: <ModalLogin />,
+          },
+          {
+            path: "/register",
+            element: <ModalRegister />,
           },
         ],
       },
