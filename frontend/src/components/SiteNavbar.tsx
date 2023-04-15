@@ -7,7 +7,6 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link } from "react-router-dom";
 
-
 const SiteNavbar = () => {
   return (
     <Navbar bg="light" expand="lg">
@@ -20,18 +19,22 @@ const SiteNavbar = () => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link as={Link} to="/achievements">Achievements</Nav.Link>
-            <Nav.Link as={Link} to="/statistics">Statistics</Nav.Link>
+            <Nav.Link as={Link} to="/achievements">
+              Achievements
+            </Nav.Link>
+            <Nav.Link as={Link} to="/statistics">
+              Statistics
+            </Nav.Link>
             <NavDropdown title="Save/Reset" id="navbarScrollingDropdown">
               <NavDropdown.Item href="#action3">Save</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">
-                Reset
-              </NavDropdown.Item>
+              <NavDropdown.Item href="#action4">Reset</NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Form className="d-flex">
-            <Button variant="outline-success">Login</Button>
-          </Form>
+          <Nav className="d-flex">
+              <Button variant="outline-success">Login</Button>
+              <div className="me-2"></div>
+              <Button variant="outline-success">Register</Button>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
