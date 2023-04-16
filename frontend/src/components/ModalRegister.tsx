@@ -1,18 +1,35 @@
-import React from 'react'
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import { useNavigate } from "react-router-dom";
+import { registerationAsync } from "../reducers/authenticationSlice";
+import { useAppDispatch } from "../app/hooks";
 
 const ModalRegister = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [show, setShow] = useState(true);
 
   const handleClose = () => {
-    setShow(false)
-    navigate("..")
+    setShow(false);
+    navigate("..");
   };
+
+  const registeration = () => {
+    const userData = new FormData();
+    userData.append("username", "test");
+    userData.append("password", "123");
+    userData.append("password2", "123");
+    userData.append("email", "matantentententen@gmail.com");
+    console.log(Object.fromEntries(userData).username)
+    dispatch(registerationAsync({username: "matan", password: "123", password2: "123", email: "matanten1020@gmail.com"}))
+  };
+
+  useEffect(() => {
+    registeration();
+  }, []);
 
   return (
     <>
@@ -54,6 +71,6 @@ const ModalRegister = () => {
       </Modal>
     </>
   );
-}
+};
 
-export default ModalRegister
+export default ModalRegister;
