@@ -14,7 +14,8 @@ const initialState: AuthState = {
 
 export const registerationAsync = createAsyncThunk(
   "auth/register",
-  async (userData: Register) => {
+  async (userData: FormData) => {
+    console.log(userData)
     return await registeration(userData);
   }
 );
@@ -23,7 +24,7 @@ export const authenticationSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    
+
   },
   extraReducers: (builder) => {
     builder

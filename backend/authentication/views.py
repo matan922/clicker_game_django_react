@@ -18,6 +18,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 @api_view(['POST'])
 def registration_form(request):
     serializer = RegisterSerializer(data = request.data)
+    print(serializer)
     if serializer.is_valid():
         serializer.save()
         print(serializer.data)

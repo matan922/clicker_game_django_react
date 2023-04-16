@@ -4,9 +4,9 @@ import { Register } from "../models/AuthenticationInterface";
 
 
 
-export const registeration = (userData: Register) => {
+export const registeration = (userData: FormData) => {
     return new Promise<{ data: Register }>((resolve) =>
-    axios.post(server + "auth/register/").then((res) => resolve({ data: res.data }))
+    axios.post(server + "auth/register/", userData).then((res) => resolve({ data: res.data }))
     );
   }
   
