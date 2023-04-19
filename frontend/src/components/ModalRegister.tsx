@@ -4,8 +4,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
-import { registerationAsync } from "../reducers/authenticationSlice";
+import { registrationAsync } from "../reducers/authenticationSlice";
 import { useAppDispatch } from "../app/hooks";
+import { Register } from "../models/AuthenticationInterface";
 
 const ModalRegister = () => {
   const navigate = useNavigate();
@@ -24,15 +25,17 @@ const ModalRegister = () => {
   };
 
   const handleSubmit = () => {
-    const userData = new FormData();
-    userData.append("username", username);
-    userData.append("first_name", firstName);
-    userData.append("last_name", lastName);
-    userData.append("password", password);
-    userData.append("password2", password2);
-    userData.append("email", email);
+    const userData: Register = {
+      username: username,
+      first_name: firstName,
+      last_name: lastName,
+      password: password,
+      password2: password2,
+      email: email,
+    };
 
-    dispatch(registerationAsync(userData));
+    dispatch(registrationAsync(userData));
+
   };
 
   return (
