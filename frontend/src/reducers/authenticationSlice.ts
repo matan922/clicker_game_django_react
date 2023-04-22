@@ -9,7 +9,14 @@ const initialState: AuthState = {
   isSuccess: false,
   isError: false,
   isLogged: false,
-  message: "",
+  message: {
+    username: "",
+    first_name: "",
+    last_name: "",
+    password: [],
+    password2: [],
+    email: ""
+  }
 };
 
 // register user
@@ -21,8 +28,8 @@ export const registrationAsync = createAsyncThunk(
       console.log(userData)
       return await registration(userData)
     } catch (error: any) {
-      console.log(error.response.data)
-      thunkAPI.rejectWithValue(error.response.data)
+      console.log(error.response)
+      return thunkAPI.rejectWithValue(error.response.data)
     }
     
   }
@@ -51,12 +58,13 @@ export const authenticationSlice = createSlice({
     .addCase(registrationAsync.fulfilled, (state, action) => {
       state.isLoading = false
       state.isSuccess = true
-      // state.username = action.payload.data.username
+      state.username = action.payload?.data.username as string
     })
-    .addCase(registrationAsync.rejected, (state, action) =>{
+    .addCase(registrationAsync.rejected, (state, action: any) =>{
       state.isLoading = false
       state.isError = true
-      state.message = ""
+      // state.message = action.payload
+      state.message = action.payload
     })
     .addCase(loginAsync.fulfilled, (state, action) => {
 
@@ -64,7 +72,10 @@ export const authenticationSlice = createSlice({
   },
 });
 
-// export const { reset, isLoggedOn, isLoggedOff, resetAccountToFalse, staffLoggedOn } = authenticationSlice.actions;
-// export const selectIsLogged = (state: RootState) => state.authentication.isLogged;
+// export const {  } = authenticationSlice.actions;
+export const selectMessage = (state: RootState) => state.authentication.message;
+export const selectIsError = (state: RootState) => state.authentication.isError;
+export const selectIsLoading = (state: RootState) => state.authentication.isLoading;
+export const selectIsSuccess = (state: RootState) => state.authentication.isSuccess;
 
 export default authenticationSlice.reducer;

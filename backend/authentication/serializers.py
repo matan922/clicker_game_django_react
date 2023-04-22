@@ -19,7 +19,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required = True, validators=[UniqueValidator(queryset=User.objects.all(), message="Email already exists.")])
+    email = serializers.EmailField(required = True, validators=[UniqueValidator(queryset=User.objects.all(), message={"error": "Email already exists."})])
+    username = serializers.CharField(required = True, validators=[UniqueValidator(queryset=User.objects.all(), message={"error": "Username already exists."})])
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     
@@ -33,7 +34,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         check if passwords match.
         """
         if pwd['password'] != pwd['password2']:
-            raise ValidationError("Passwords must match!")
+            raise ValidationError({"error":"Passwords must match!"})
         return pwd
         
     def create(self, validated_data):

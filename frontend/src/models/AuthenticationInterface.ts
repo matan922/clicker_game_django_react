@@ -4,7 +4,14 @@ export interface AuthState {
     isSuccess: boolean;
     isError: boolean;
     isLogged: boolean;
-    message: string;
+    message: {
+        username: string;
+        first_name: string;
+        last_name: string;    
+        password: [];
+        password2: [];
+        email: string;
+    };
 }
 
 export interface Register {

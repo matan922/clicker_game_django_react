@@ -11,6 +11,7 @@ import Game from "./routes/Game";
 import ModalLogin from "./components/ModalLogin";
 import ModalRegister from "./components/ModalRegister";
 
+
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
