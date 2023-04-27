@@ -10,58 +10,24 @@ import {
   selectMessage,
 } from "../reducers/authenticationSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { Register } from "../models/AuthenticationInterface";
-import { toast } from "react-toastify";
 import { useForm, SubmitHandler } from "react-hook-form";
+import {
+  Register,
+  RegisterFormInputs,
+} from "../models/AuthenticationInterface";
 
 const ModalRegister = () => {
-  type FormValues = {
-    username: string;
-    first_name: string;
-    last_name: string;
-    password: string;
-    password2: string;
-    email: string;
-  };
-
-  type UserFormInputs = {
-    id: number;
-    label: string;
-    controlId:
-      | "username"
-      | "first_name"
-      | "last_name"
-      | "password"
-      | "password2"
-      | "email";
-    type: string;
-    placeholder: string;
-    minLength: {
-      value: number;
-      message: string;
-    };
-  }[];
-
+  const [show, setShow] = useState<boolean>(true);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isError = useAppSelector(selectIsError);
   const message = useAppSelector(selectMessage);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<Register>();
 
-  const [show, setShow] = useState<boolean>(true);
-  // const [userDetails, setUserDetails] = useState({
-  //   username: "",
-  //   first_name: "",
-  //   last_name: "",
-  //   password: "",
-  //   password2: "",
-  //   email: "",
-  // });
+  const onSubmit: SubmitHandler<Register> = (data) => {
+    console.log(data);
+    dispatch(registrationAsync(data))
+  };
 
   console.log(errors);
 
@@ -70,29 +36,8 @@ const ModalRegister = () => {
     navigate("..");
   };
 
-  // const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
-  //   event.preventDefault();
 
-  //   // if (isError) {
-  //   //   toast(message.password[0])
-  //   // }
-  //   const userData: Register = {
-  //     username: userDetails.username,
-  //     first_name: userDetails.first_name,
-  //     last_name: userDetails.last_name,
-  //     password: userDetails.password,
-  //     password2: userDetails.password2,
-  //     email: userDetails.email,
-  //   };
-
-  //   if (userDetails.password !== userDetails.password2 || userDetails.password === "" || userDetails.password2 === "") {
-  //     return false // set to false so it doesn't send the form.
-  //   }
-  //   dispatch(registrationAsync(userData));
-  //   setValidated(false);
-  // };
-
-  const inputs: UserFormInputs = [
+  const inputs: RegisterFormInputs[] = [
     {
       id: 1,
       controlId: "username",
@@ -101,8 +46,14 @@ const ModalRegister = () => {
       placeholder: "Username",
       minLength: {
         value: 6,
-        message: "Minimum length is 6",
+        message: "Minimum length is 6 and maximum 16.",
       },
+      maxLength: {
+        value: 16,
+        message: "Minimum length is 6 and maximum 16.",
+      },
+      pattern: undefined,
+      validate: undefined
     },
     {
       id: 2,
@@ -112,8 +63,14 @@ const ModalRegister = () => {
       placeholder: "Your first name",
       minLength: {
         value: 3,
-        message: "Minimum length is 3",
+        message: "Minimum length is 3 and maximum 12.",
       },
+      maxLength: {
+        value: 12,
+        message: "Minimum length is 3 and maximum 12.",
+      },
+      pattern: undefined,
+      validate: undefined
     },
     {
       id: 3,
@@ -123,8 +80,14 @@ const ModalRegister = () => {
       placeholder: "Your last name",
       minLength: {
         value: 3,
-        message: "Minimum length is 3",
+        message: "Minimum length is 3 and maximum 12.",
       },
+      maxLength: {
+        value: 12,
+        message: "Minimum length is 3 and maximum 12.",
+      },
+      pattern: undefined,
+      validate: undefined
     },
     {
       id: 4,
@@ -134,8 +97,14 @@ const ModalRegister = () => {
       placeholder: "Password",
       minLength: {
         value: 8,
-        message: "Minimum length is 8",
+        message: "Minimum length is 8 and maximum 16.",
       },
+      maxLength: {
+        value: 16,
+        message: "Minimum length is 8 and maximum 16.",
+      },
+      pattern: undefined,
+      validate: undefined
     },
     {
       id: 5,
@@ -145,19 +114,33 @@ const ModalRegister = () => {
       placeholder: "Write password again",
       minLength: {
         value: 8,
-        message: "Minimum length is 8",
+        message: "Minimum length is 8 and maximum 16.",
       },
+      maxLength: {
+        value: 16,
+        message: "Minimum length is 8 and maximum 16.",
+      },
+      pattern: undefined,
+      validate: (val: string) => {
+        if (watch('password') !== val) {
+          return "Passwords do not match."
+        }
+      }
+
     },
     {
       id: 6,
       controlId: "email",
-      label: "Password",
+      label: "Email",
       type: "email",
       placeholder: "Email",
-      minLength: {
-        value: 0,
-        message: "its fine for now",
+      minLength: undefined,
+      maxLength: undefined,
+      pattern: {
+        value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+        message: "Bad email address.",
       },
+      validate: undefined
     },
   ];
 
@@ -178,23 +161,22 @@ const ModalRegister = () => {
                 <Form.Label>{input.label}</Form.Label>
                 <Form.Control
                   className={`form-control ${errors?.[input.controlId] ? "is-invalid" : ""}`}
-                  {...register(input.controlId, {
-                    required: "This line cannot be blank.",
-                    minLength: {
-                      value: input.minLength.value,
-                      message: input.minLength.message,
-                    },
-                  })}
+                  {...register(input.controlId, 
+                  {required: "This line cannot be blank.",
+                  minLength: input.minLength,
+                  maxLength: input.maxLength,
+                  pattern: input.pattern,
+                  validate:  input.validate,})}
                   type={input.type}
                   placeholder={input.placeholder}
                   // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setUserDetails({...userDetails,[e.target.id]: e.target.value,});}}
                   autoFocus
                 />
                 {errors?.[input.controlId] && (
-                  <Form.Control.Feedback type="invalid">{errors?.[input.controlId]?.message}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    {errors?.[input.controlId]?.message}
+                  </Form.Control.Feedback>
                 )}
-                
-                
               </Form.Group>
             ))}
           </Modal.Body>
