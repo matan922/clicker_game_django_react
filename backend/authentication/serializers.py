@@ -21,8 +21,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required = True, validators=[UniqueValidator(queryset=User.objects.all(), message={"error": "Email already exists."})])
     username = serializers.CharField(required = True, validators=[UniqueValidator(queryset=User.objects.all(), message={"error": "Username already exists."})])
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    password = serializers.CharField(write_only=True, required=True)
+    password2 = serializers.CharField(write_only=True, required=True)
     
     class Meta:
         model = User

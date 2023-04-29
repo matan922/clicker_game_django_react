@@ -10,8 +10,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 const ModalLogin = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState<boolean>(true);
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -90,7 +88,7 @@ const ModalLogin = () => {
                 />
                 {errors?.[input.controlId] && (
                   <Form.Control.Feedback type="invalid">
-                    error
+                    {errors?.[input.controlId]?.message}
                   </Form.Control.Feedback>
                 )}
               </Form.Group>
