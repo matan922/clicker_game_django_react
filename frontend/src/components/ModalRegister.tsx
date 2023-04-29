@@ -1,15 +1,12 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import {
   registrationAsync,
-  selectIsError,
-  selectMessage,
 } from "../reducers/authenticationSlice";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch } from "../app/hooks";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
   Register,
@@ -20,8 +17,6 @@ const ModalRegister = () => {
   const [show, setShow] = useState<boolean>(true);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const isError = useAppSelector(selectIsError);
-  const message = useAppSelector(selectMessage);
   const { register, handleSubmit, formState: { errors }, watch } = useForm<Register>();
 
   const onSubmit: SubmitHandler<Register> = (data) => {
@@ -39,7 +34,7 @@ const ModalRegister = () => {
 
   const inputs: RegisterFormInputs[] = [
     {
-      id: 1,
+      id: 0,
       controlId: "username",
       label: "Username",
       type: "text",
@@ -52,11 +47,9 @@ const ModalRegister = () => {
         value: 16,
         message: "Minimum length is 6 and maximum 16.",
       },
-      pattern: undefined,
-      validate: undefined
     },
     {
-      id: 2,
+      id: 1,
       controlId: "first_name",
       label: "First Name",
       type: "text",
@@ -69,11 +62,9 @@ const ModalRegister = () => {
         value: 12,
         message: "Minimum length is 3 and maximum 12.",
       },
-      pattern: undefined,
-      validate: undefined
     },
     {
-      id: 3,
+      id: 2,
       controlId: "last_name",
       label: "Last Name",
       type: "text",
@@ -86,11 +77,9 @@ const ModalRegister = () => {
         value: 12,
         message: "Minimum length is 3 and maximum 12.",
       },
-      pattern: undefined,
-      validate: undefined
     },
     {
-      id: 4,
+      id: 3,
       controlId: "password",
       label: "Password",
       type: "password",
@@ -103,11 +92,9 @@ const ModalRegister = () => {
         value: 16,
         message: "Minimum length is 8 and maximum 16.",
       },
-      pattern: undefined,
-      validate: undefined
     },
     {
-      id: 5,
+      id: 4,
       controlId: "password2",
       label: "Password",
       type: "password",
@@ -120,7 +107,6 @@ const ModalRegister = () => {
         value: 16,
         message: "Minimum length is 8 and maximum 16.",
       },
-      pattern: undefined,
       validate: (val: string) => {
         if (watch('password') !== val) {
           return "Passwords do not match."
@@ -129,18 +115,15 @@ const ModalRegister = () => {
 
     },
     {
-      id: 6,
+      id: 5,
       controlId: "email",
       label: "Email",
       type: "email",
       placeholder: "Email",
-      minLength: undefined,
-      maxLength: undefined,
       pattern: {
         value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
         message: "Bad email address.",
       },
-      validate: undefined
     },
   ];
 
@@ -169,7 +152,6 @@ const ModalRegister = () => {
                   validate:  input.validate,})}
                   type={input.type}
                   placeholder={input.placeholder}
-                  // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setUserDetails({...userDetails,[e.target.id]: e.target.value,});}}
                   autoFocus
                 />
                 {errors?.[input.controlId] && (
@@ -195,120 +177,3 @@ const ModalRegister = () => {
 };
 
 export default ModalRegister;
-
-{
-  /* <Form.Group className="mb-3" controlId="username">
-<Form.Label>Username</Form.Label>
-<Form.Control
-  {...register("username")}
-  type="text"
-  placeholder="Username"
-  // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setUserDetails({...userDetails,[e.target.id]: e.target.value,});}}
-  autoFocus
-  required
-/>
-<Form.Control.Feedback type="invalid">
-  {message.username}
-</Form.Control.Feedback>
-</Form.Group>
-
-<Form.Group className="mb-3" controlId="first_name">
-<Form.Label>First Name</Form.Label>
-<Form.Control
-  {...register("first_name")}
-  type="text"
-  placeholder="Your name"
-  // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-  //   setUserDetails({
-  //     ...userDetails,
-  //     [e.target.id]: e.target.value,
-  //   })
-  // }
-  autoFocus
-  required
-/>
-<Form.Control.Feedback type="invalid">
-  {message.first_name}
-</Form.Control.Feedback>
-</Form.Group>
-
-<Form.Group className="mb-3" controlId="last_name">
-<Form.Label>Last Name</Form.Label>
-<Form.Control
-  {...register("last_name")}
-  type="text"
-  placeholder="Your surname"
-  // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-  //   setUserDetails({
-  //     ...userDetails,
-  //     [e.target.id]: e.target.value,
-  //   })
-  // }
-  autoFocus
-  required
-/>
-<Form.Control.Feedback type="invalid">
-  {message.last_name}
-</Form.Control.Feedback>
-</Form.Group>
-
-<Form.Group className="mb-3" controlId="password">
-<Form.Label>Password</Form.Label>
-<Form.Control
-  {...register("password")}
-  type="password"
-  placeholder="Password"
-  // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-  //   setUserDetails({
-  //     ...userDetails,
-  //     [e.target.id]: e.target.value,
-  //   })
-  // }
-  autoFocus
-  required
-/>
-<Form.Control.Feedback type="invalid">
-  {message.password.map((err) => err)}
-</Form.Control.Feedback>
-</Form.Group>
-
-<Form.Group className="mb-3" controlId="password2">
-<Form.Label>Confirm Password</Form.Label>
-<Form.Control
-  {...register("password2")}
-  type="password"
-  placeholder="Password"
-  // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-  //   setUserDetails({
-  //     ...userDetails,
-  //     [e.target.id]: e.target.value,
-  //   })
-  // }
-  autoFocus
-  required
-/>
-<Form.Control.Feedback type="invalid">
-  {message.password2.map((err) => err)}
-</Form.Control.Feedback>
-</Form.Group>
-
-<Form.Group className="mb-3" controlId="email">
-<Form.Label>Email</Form.Label>
-<Form.Control
-  {...register("email")}
-  type="email"
-  placeholder="Email"
-  // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-  //   setUserDetails({
-  //     ...userDetails,
-  //     [e.target.id]: e.target.value,
-  //   })
-  // }
-  autoFocus
-  required
-/>
-<Form.Control.Feedback type="invalid">
-  {message.email}
-</Form.Control.Feedback>
-</Form.Group> */
-}

@@ -33,26 +33,36 @@ export interface Login {
 export interface RegisterFormInputs {
   id: number;
   label: string;
-  controlId:
-    | "username"
-    | "first_name"
-    | "last_name"
-    | "password"
-    | "password2"
-    | "email";
+  controlId: "username" | "first_name" | "last_name" | "password" | "password2" | "email";
+  type: string;
+  placeholder: string;
+  minLength?: {
+    value: number;
+    message: string;
+  };
+  maxLength?: {
+    value: number;
+    message: string;
+  };
+  pattern?: {
+    value: RegExp;
+    message: string;
+  };
+  validate?: (val: string) => any;
+}
+
+export interface LoginFormInputs {
+  id: number;
+  label: string;
+  controlId: "username" | "password";
   type: string;
   placeholder: string;
   minLength: {
     value: number;
     message: string;
-  } | undefined;
+  };
   maxLength: {
     value: number;
     message: string;
-  } | undefined;
-  pattern: {
-    value: RegExp;
-    message: string;
-  } | undefined;
-  validate: ((val: string) => any) | undefined;
+  };
 }
