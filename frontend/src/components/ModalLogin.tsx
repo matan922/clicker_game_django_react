@@ -6,19 +6,22 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { Login, LoginFormInputs } from "../models/AuthenticationInterface";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { loginAsync } from "../reducers/authenticationSlice";
+import { useAppDispatch } from "../app/hooks";
 
 const ModalLogin = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch()
   const [show, setShow] = useState<boolean>(true);
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm<Login>();
 
   const onSubmit: SubmitHandler<Login> = (data) => {
     console.log(data);
+    dispatch(loginAsync(data))
   };
 
   const handleClose = () => {

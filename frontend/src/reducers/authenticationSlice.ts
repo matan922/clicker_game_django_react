@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 import { AuthState, Login, Register } from "../models/AuthenticationInterface";
 import { login, registration } from "../api/authenticationApi";
@@ -9,6 +9,7 @@ const initialState: AuthState = {
   isSuccess: false,
   isError: false,
   isLogged: false,
+  token: "",
   message: {
     username: "",
     first_name: "",
@@ -37,8 +38,15 @@ export const registrationAsync = createAsyncThunk(
 
 export const loginAsync = createAsyncThunk(
   "auth/login",
-  async (userData: Login) => {
-    return await login(userData)
+  async (userData: Login, thunkAPI) => {
+    try {
+      console.log(userData)
+      return await login(userData)
+    }
+    catch (error: any) {
+      console.log(error.response)
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
   }
 )
 
@@ -63,11 +71,27 @@ export const authenticationSlice = createSlice({
     .addCase(registrationAsync.rejected, (state, action: any) =>{
       state.isLoading = false
       state.isError = true
-      // state.message = action.payload
       state.message = action.payload
     })
-    .addCase(loginAsync.fulfilled, (state, action) => {
 
+    .addCase(loginAsync.pending, (state, action) => {
+      state.isSuccess = false
+      state.isError = false
+      state.isLoading = true
+    })
+    .addCase(loginAsync.fulfilled, (state, action) => {
+      state.isError = false
+      state.isLoading= false
+      state.isSuccess = true
+      state.token = action.payload.data.access as any
+      console.log(state.token)
+    })
+    .addCase(loginAsync.rejected, (state, action) => {
+      state.isSuccess = false
+      state.isLoading = false
+      state.isError = true
+      // state.message = action.payload as any
+      // console.log(current(state.message))
     })
   },
 });

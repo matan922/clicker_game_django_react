@@ -6,13 +6,14 @@ export interface AuthState {
   isSuccess: boolean;
   isError: boolean;
   isLogged: boolean;
+  token: string;
   message: {
-    username: string;
-    first_name: string;
-    last_name: string;
-    password: [];
-    password2: [];
-    email: string;
+    username?: string;
+    first_name?: string;
+    last_name?: string;
+    password?: [];
+    password2?: [];
+    email?: string;
   };
 }
 
