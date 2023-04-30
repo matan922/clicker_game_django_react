@@ -9,7 +9,7 @@ import {
 import { useAppDispatch } from "../app/hooks";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
-  Register,
+  RegisterRequest,
   RegisterFormInputs,
 } from "../models/AuthenticationInterface";
 
@@ -17,9 +17,9 @@ const ModalRegister = () => {
   const [show, setShow] = useState<boolean>(true);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<Register>();
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<RegisterRequest>();
 
-  const onSubmit: SubmitHandler<Register> = (data) => {
+  const onSubmit: SubmitHandler<RegisterRequest> = (data) => {
     console.log(data);
     dispatch(registrationAsync(data))
   };

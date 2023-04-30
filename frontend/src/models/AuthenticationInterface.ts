@@ -1,23 +1,27 @@
 import { Validate } from "react-hook-form";
 
+
+export interface Error {
+  username?: string;
+  first_name?: string;
+  last_name?: string;
+  password?: [];
+  password2?: [];
+  email?: string;
+}
+
 export interface AuthState {
   username: string;
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
   isLogged: boolean;
-  token: string;
-  message: {
-    username?: string;
-    first_name?: string;
-    last_name?: string;
-    password?: [];
-    password2?: [];
-    email?: string;
-  };
+  access: string;
+  refresh: string;
+  message: Error;
 }
 
-export interface Register {
+export interface RegisterRequest {
   username: string;
   first_name: string;
   last_name: string;
@@ -26,9 +30,23 @@ export interface Register {
   email: string;
 }
 
-export interface Login {
+export interface RegisterResponse {
+  username: string;
+  first_name: string;
+  last_name: string;
+  password: string;
+  password2: string;
+  email: string;
+}
+
+export interface LoginRequest {
   username: string;
   password: string;
+}
+
+export interface LoginResponse {
+  access: string;
+  refresh: string;
 }
 
 export interface RegisterFormInputs {
