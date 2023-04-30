@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Stack } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
+import ClickCounter from "./ClickCounter";
 
 const ModalStats = () => {
   const navigate = useNavigate();
