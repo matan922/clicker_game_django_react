@@ -1,6 +1,3 @@
-import { Validate } from "react-hook-form";
-
-
 export interface Error {
   username?: string;
   first_name?: string;
