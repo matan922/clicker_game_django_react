@@ -30,7 +30,7 @@ const ModalStats = () => {
             Clicks: <Counter clicks={clicks} />
           </div>
           <div>Cursors: <Counter cursors={cursors} /></div>
-          <div>Workers: <Counter workers={workers} /></div>
+          <div>Workers: <Counter workers={workers.value} /></div>
           <div>Coins: <Counter coins={coins} /></div>
         </Modal.Body>
         <Modal.Footer>

@@ -3,15 +3,16 @@ import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Counter from "./Counter";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { incrementClicks, buyCursor } from "../reducers/clickerSlice";
+import { incrementClicks, buyCursor, buyWorker, checkIncrementPerSecond } from "../reducers/clickerSlice";
 
 const ClickerGame = () => {
   // const [count, setCount] = useState<number>(0)
   const clicker = useAppSelector((state) => state.clicker);
   const dispatch = useAppDispatch();
-
+  
   const coins = clicker.coins;
   const cursorCost = clicker.cursors.cursorCost;
+  const workerCost = clicker.workers.workerCost;
   return (
     <div>
       <Container fluid>
@@ -22,7 +23,8 @@ const ClickerGame = () => {
         <Button onClick={() => dispatch(buyCursor())}>
           Buy Cursor -- {cursorCost}
         </Button>
-        <Button>Buy Worker -- 10</Button>
+        <Button onClick={() => dispatch(buyWorker())}>Buy Worker -- {workerCost}</Button>
+        <Button onClick={() => dispatch(checkIncrementPerSecond())}>Buy Worker -- {workerCost}</Button>
       </Container>
     </div>
   );
