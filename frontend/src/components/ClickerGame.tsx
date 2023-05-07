@@ -24,7 +24,6 @@ const ClickerGame = () => {
           Buy Cursor -- {cursorCost}
         </Button>
         <Button onClick={() => dispatch(buyWorker())}>Buy Worker -- {workerCost}</Button>
-        <Button onClick={() => dispatch(checkIncrementPerSecond())}>Buy Worker -- {workerCost}</Button>
       </Container>
     </div>
   );

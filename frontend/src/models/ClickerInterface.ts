@@ -6,9 +6,9 @@ export interface ClickerState {
         value: number
         incrementBy: number;
     }
-    multip: number;
     cursors: {
         cursorCost: number;
         value: number;
     };
+    totalIncrementBy: number;
 }
