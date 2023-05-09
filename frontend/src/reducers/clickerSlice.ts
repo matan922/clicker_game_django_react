@@ -44,20 +44,6 @@ const clickerSlice = createSlice({
     autoIncrement: (state) => {
       state.totalIncrementBy = state.workers.incrementBy * state.workers.value;
       state.coins += state.totalIncrementBy
-      console.log("total",state.totalIncrementBy);
-      console.log("incrementby",state.workers.incrementBy);
-      console.log("value",state.workers.value);
-
-    },
-
-    checkIncrementPerSecond: (state) => {
-      // for (let i = 0; i < autoIncrements.length; i++) {
-      //   console.log(autoIncrements[i].workersIncrement);
-      //   console.log(autoIncrements[i].workersValue);
-      //   if (autoIncrements[i].workersValue > 0) {
-      //     setInterval(() => {}, 1000);
-      //   }
-      // }
     },
   },
   extraReducers: (builder) => {},
@@ -67,7 +53,6 @@ export const {
   incrementClicks,
   buyCursor,
   buyWorker,
-  checkIncrementPerSecond,
   autoIncrement,
 } = clickerSlice.actions;
 
