@@ -11,7 +11,6 @@ function App() {
   const dispatch = useAppDispatch()
   const clicker = useAppSelector((state) => state.clicker);
   const workersValue = clicker.workers.value
-  console.log(workersValue)
 
 
   useEffect(() => {

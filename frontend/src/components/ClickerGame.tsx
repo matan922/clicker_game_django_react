@@ -15,16 +15,21 @@ const ClickerGame = () => {
   const dispatch = useAppDispatch();
 
   const format = (number: number) => {
-    let exponent = Math.floor(Math.log10(number))
-    let mantissa = number / 10 ** exponent
-    console.log(new Intl.NumberFormat().format(number))
-    if (exponent >= 6) {
-      console.log(number + "M")
-      return mantissa.toFixed(2) + "M"
+    const formatRules: any = [
+      { divisor: 1e6, suffix: " Million" },
+      { divisor: 1e9, suffix: " Billion" },
+      { divisor: 1e12, suffix: " Trillion" },
+    ];
+
+    for (const rule of formatRules) {
+      if (number >= rule.divisor) {
+        const mantissa = number / rule.divisor;
+        console.log(mantissa.toFixed(1) + rule.suffix)
+        return mantissa.toFixed(1) + rule.suffix;
+      }
     }
 
-    console.log(number.toFixed(0))
-    return mantissa.toFixed(0);
+    return number.toFixed(0);  
   };
 
   const coins = clicker.coins;
@@ -43,7 +48,6 @@ const ClickerGame = () => {
         <Button onClick={() => dispatch(buyWorker())}>
           Buy Worker -- {workerCost}
         </Button>
-        <Button onClick={() => format(3000000)}>Test</Button>
       </Container>
     </div>
   );
