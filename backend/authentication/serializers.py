@@ -5,7 +5,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
-
+from clicker_game.models import Cursor, Worker, ClickerDetails
 
 # Login Serializer
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -47,6 +47,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         
         user.set_password(validated_data['password'])
         user.save()
+        
+        user_dets_init = ClickerDetails(
+            user = user,
+            coins = 0,
+            clicks = 0,
+            total_increment_by = 0,
+        )
+        user_dets_init.save()
+        
         return user
             
 # Logout Serializer  

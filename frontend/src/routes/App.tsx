@@ -12,6 +12,7 @@ function App() {
   const clicker = useAppSelector((state) => state.clicker);
   const workersValue = clicker.workers.value
 
+  
 
   useEffect(() => {
     if (workersValue >= 1) {
