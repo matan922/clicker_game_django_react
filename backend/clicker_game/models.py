@@ -15,23 +15,40 @@ class ClickerDetails(models.Model):
     def __str__(self):
         return self.user.username
     
-class Worker(models.Model):
+class Upgrade(models.Model):
+    UPGRADE_TYPES = (
+        ('worker','Worker'),
+        ('cursor', 'Cursor'),
+    )
+    
     clicker_details = models.ForeignKey(ClickerDetails, on_delete=models.CASCADE)
-    worker_cost = models.CharField(max_length=255)
-    value = models.CharField(max_length=255)
-    increment_by = models.CharField(max_length=255)
-
+    upgrade_type = models.CharField(max_length=255, choices=UPGRADE_TYPES)
+    cost = models.CharField(max_length=255)
+    value = models.CharField(max_length=255, default=0)
+    auto_increment_by = models.CharField(max_length=255, null=True, default=0)
+    
     def __str__(self):
-        return "Worker"
+        return self.upgrade_type
+
+    
+    
+# class Worker(models.Model):
+#     clicker_details = models.ForeignKey(ClickerDetails, on_delete=models.CASCADE)
+#     worker_cost = models.CharField(max_length=255)
+#     value = models.CharField(max_length=255)
+#     increment_by = models.CharField(max_length=255)
+
+#     def __str__(self):
+#         return "Worker"
 
 
-class Cursor(models.Model):
-    clicker_details = models.ForeignKey(ClickerDetails, on_delete=models.CASCADE)
-    cursor_cost = models.CharField(max_length=255)
-    value = models.CharField(max_length=255)
+# class Cursor(models.Model):
+#     clicker_details = models.ForeignKey(ClickerDetails, on_delete=models.CASCADE)
+#     cursor_cost = models.CharField(max_length=255)
+#     value = models.CharField(max_length=255)
 
-    def __str__(self):
-        return "Cursor"
+#     def __str__(self):
+#         return "Cursor"
 
     
 # @receiver(post_save, sender=User)

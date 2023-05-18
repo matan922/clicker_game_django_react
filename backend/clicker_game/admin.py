@@ -1,9 +1,8 @@
 from django.contrib import admin
 
-from clicker_game.models import ClickerDetails, Cursor, Worker
+from clicker_game.models import ClickerDetails, Upgrade
 
 # Register your models here.
 
 admin.site.register(ClickerDetails)
-admin.site.register(Worker)
-admin.site.register(Cursor)
+admin.site.register(Upgrade)

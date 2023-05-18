@@ -5,7 +5,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
-from clicker_game.models import Cursor, Worker, ClickerDetails
+from clicker_game.models import ClickerDetails, Upgrade
 
 # Login Serializer
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -45,16 +45,34 @@ class RegisterSerializer(serializers.ModelSerializer):
             last_name=validated_data['last_name'],
         )
         
+        
+        
         user.set_password(validated_data['password'])
         user.save()
         
-        user_dets_init = ClickerDetails(
-            user = user,
-            coins = 0,
-            clicks = 0,
-            total_increment_by = 0,
-        )
-        user_dets_init.save()
+        account_init = ClickerDetails(user=user, clicks='0', coins='0', total_increment_by='0')
+        account_init.save()
+
+        # need to create upgrades and fiddle with the models
+        upgrades = Upgrade.objects.all()
+        
+        for upgrade in upgrades:
+            init_upgrade = Upgrade(
+                clicker_details=user,
+                upgrade_type=upgrade.upgrade_type,
+                cost=upgrade.cost,
+                value=upgrade.value,
+                auto_increment_by=upgrade.auto_increment_by,
+            )
+            init_upgrade.save()
+        
+        # user_dets_init = ClickerDetails(
+        #     user = user,
+        #     coins = 0,
+        #     clicks = 0,
+        #     total_increment_by = 0,
+        # )
+        # user_dets_init.save()
         
         return user
             

@@ -26,4 +26,5 @@ urlpatterns = [
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', views.registration_form, name='auth_register'),
     path('logout/', views.logout, name='auth_logout'),
+    # path('test/', views.test, name='test'),
 ]
