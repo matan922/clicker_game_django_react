@@ -24,9 +24,18 @@ class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
     password2 = serializers.CharField(write_only=True, required=True)
     
+    class InitStatsSerializer(serializers.ModelSerializer):
+        
+        class Meta:
+            model = Upgrade
+            fields = '__all__'
+    
+    init_stats = InitStatsSerializer()
+    print(init_stats)
+    
     class Meta:
         model = User
-        fields = ['username', 'password', 'password2', 'email', 'first_name', 'last_name']
+        fields = '__all__'
 
         
     def validate(self, pwd):
@@ -38,6 +47,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         return pwd
         
     def create(self, validated_data):
+        init_stats_data = validated_data.pop('init_stats')
+        
         user = User(
             email=validated_data['email'],
             username=validated_data['username'],
@@ -54,25 +65,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         account_init.save()
 
         # need to create upgrades and fiddle with the models
-        upgrades = Upgrade.objects.all()
+        # upgrades = Upgrade._meta.get_fields()
+        # print(upgrades)
         
-        for upgrade in upgrades:
-            init_upgrade = Upgrade(
-                clicker_details=user,
-                upgrade_type=upgrade.upgrade_type,
-                cost=upgrade.cost,
-                value=upgrade.value,
-                auto_increment_by=upgrade.auto_increment_by,
-            )
-            init_upgrade.save()
-        
-        # user_dets_init = ClickerDetails(
-        #     user = user,
-        #     coins = 0,
-        #     clicks = 0,
-        #     total_increment_by = 0,
+        # init_upgrade = Upgrade(
+        #     clicker_details=user,
+        #     upgrade_type=validated_data['upgrade_type'],
+        #     cost=validated_data['cost'],
+        #     value=validated_data['value'],
+        #     auto_increment_by=validated_data['auto_increment_by'],
         # )
-        # user_dets_init.save()
+        # init_upgrade.save()
         
         return user
             
