@@ -24,14 +24,14 @@ class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
     password2 = serializers.CharField(write_only=True, required=True)
     
-    class InitStatsSerializer(serializers.ModelSerializer):
+    # class InitStatsSerializer(serializers.ModelSerializer):
         
-        class Meta:
-            model = Upgrade
-            fields = '__all__'
+    #     class Meta:
+    #         model = Upgrade
+    #         fields = '__all__'
     
-    init_stats = InitStatsSerializer()
-    print(init_stats)
+    # init_stats = InitStatsSerializer()
+    # print(init_stats)
     
     class Meta:
         model = User
@@ -47,7 +47,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         return pwd
         
     def create(self, validated_data):
-        init_stats_data = validated_data.pop('init_stats')
         
         user = User(
             email=validated_data['email'],
@@ -63,6 +62,22 @@ class RegisterSerializer(serializers.ModelSerializer):
         
         account_init = ClickerDetails(user=user, clicks='0', coins='0', total_increment_by='0')
         account_init.save()
+        
+        # upgrade_types = dict(Upgrade.UPGRADE_TYPES).keys()
+        # print(upgrade_types)
+        
+        upgrade_types = [choice[0] for choice in Upgrade.UPGRADE_TYPES]
+        
+        for upgrade in upgrade_types:
+            upgrade_init = Upgrade(
+                clicker_details=account_init,
+                upgrade_type=upgrade,
+                cost='0',
+                value='0',
+                auto_increment_by='0'
+            )
+            upgrade_init.save()
+
 
         # need to create upgrades and fiddle with the models
         # upgrades = Upgrade._meta.get_fields()
