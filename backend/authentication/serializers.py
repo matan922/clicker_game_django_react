@@ -62,35 +62,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         
         account_init = ClickerDetails(user=user, clicks='0', coins='0', total_increment_by='0')
         account_init.save()
-        
-        # upgrade_types = dict(Upgrade.UPGRADE_TYPES).keys()
-        # print(upgrade_types)
-        
-        upgrade_types = [choice[0] for choice in Upgrade.UPGRADE_TYPES]
-        
-        for upgrade in upgrade_types:
-            upgrade_init = Upgrade(
-                clicker_details=account_init,
-                upgrade_type=upgrade,
-                cost='0',
-                value='0',
-                auto_increment_by='0'
-            )
-            upgrade_init.save()
-
-
-        # need to create upgrades and fiddle with the models
-        # upgrades = Upgrade._meta.get_fields()
-        # print(upgrades)
-        
-        # init_upgrade = Upgrade(
-        #     clicker_details=user,
-        #     upgrade_type=validated_data['upgrade_type'],
-        #     cost=validated_data['cost'],
-        #     value=validated_data['value'],
-        #     auto_increment_by=validated_data['auto_increment_by'],
-        # )
-        # init_upgrade.save()
+                
+        Upgrade.objects.initialize_upgrades(account_init)
         
         return user
             

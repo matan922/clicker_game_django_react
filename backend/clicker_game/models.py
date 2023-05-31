@@ -15,6 +15,23 @@ class ClickerDetails(models.Model):
     def __str__(self):
         return self.user.username
     
+class UpgradeManager(models.Manager):
+    def initialize_upgrades(self, clicker_details):
+        upgrade_initial_data = {
+            'worker': {'cost': '15', 'value': '0'},
+            'cursor': {'cost': '10', 'value': '1'},
+        }
+        
+        for upgrade_type, initial_data in upgrade_initial_data.items():
+            self.create(
+                clicker_details=clicker_details,
+                upgrade_type=upgrade_type,
+                cost=initial_data['cost'],
+                value=initial_data['value'],
+                auto_increment_by='0'
+            )
+
+
 class Upgrade(models.Model):
     UPGRADE_TYPES = (
         ('worker','Worker'),
@@ -27,10 +44,11 @@ class Upgrade(models.Model):
     value = models.CharField(max_length=255, default=0)
     auto_increment_by = models.CharField(max_length=255, null=True, default=0)
     
+    objects = UpgradeManager()
+    
     def __str__(self):
         return self.upgrade_type
 
-    
     
 # class Worker(models.Model):
 #     clicker_details = models.ForeignKey(ClickerDetails, on_delete=models.CASCADE)
