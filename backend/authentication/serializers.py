@@ -55,15 +55,13 @@ class RegisterSerializer(serializers.ModelSerializer):
             last_name=validated_data['last_name'],
         )
         
-        
-        
         user.set_password(validated_data['password'])
         user.save()
         
-        account_init = ClickerDetails(user=user, clicks='0', coins='0', total_increment_by='0')
-        account_init.save()
+        clicker_details = ClickerDetails(user=user, clicks='0', coins='0', total_increment_by='0')
+        clicker_details.save()
                 
-        Upgrade.objects.initialize_upgrades(account_init)
+        Upgrade.objects.initialize_upgrades(clicker_details)
         
         return user
             

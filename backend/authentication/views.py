@@ -13,9 +13,6 @@ class MyTokenObtainPairView(TokenObtainPairView):
     
     
 
-# @api_view(['GET','POST'])
-# def test(request):
-#     print(request.user.clicker_details)
 
 # Registration of a new user.
 @api_view(['POST'])

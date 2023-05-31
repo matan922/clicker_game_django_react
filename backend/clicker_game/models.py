@@ -15,13 +15,16 @@ class ClickerDetails(models.Model):
     def __str__(self):
         return self.user.username
     
+# Custom manager to instantiate user's upgrades upon account creation.
 class UpgradeManager(models.Manager):
     def initialize_upgrades(self, clicker_details):
+        # Create initial data for each upgrade.
         upgrade_initial_data = {
             'worker': {'cost': '15', 'value': '0'},
             'cursor': {'cost': '10', 'value': '1'},
         }
         
+        # Save the account with the initialized data.
         for upgrade_type, initial_data in upgrade_initial_data.items():
             self.create(
                 clicker_details=clicker_details,
@@ -48,29 +51,3 @@ class Upgrade(models.Model):
     
     def __str__(self):
         return self.upgrade_type
-
-    
-# class Worker(models.Model):
-#     clicker_details = models.ForeignKey(ClickerDetails, on_delete=models.CASCADE)
-#     worker_cost = models.CharField(max_length=255)
-#     value = models.CharField(max_length=255)
-#     increment_by = models.CharField(max_length=255)
-
-#     def __str__(self):
-#         return "Worker"
-
-
-# class Cursor(models.Model):
-#     clicker_details = models.ForeignKey(ClickerDetails, on_delete=models.CASCADE)
-#     cursor_cost = models.CharField(max_length=255)
-#     value = models.CharField(max_length=255)
-
-#     def __str__(self):
-#         return "Cursor"
-
-    
-# @receiver(post_save, sender=User)
-# def init_user_stats(sender, instance, created, **kwargs):
-#     if created:
-#         stats = ClickerDetails(coins="0", workers="0", user=instance)
-#         stats.save()
